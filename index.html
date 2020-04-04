@@ -10,7 +10,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"
     />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -28,10 +28,23 @@
     </section>
     
     <section>
-      <div class="container">
-       <div class="autocomplete"></div>
-       <div id="summary"></div>
+       <div class="container">
+        <div class="columns">
+         <div class="column">
+           <div id="left-autocomplete"></div>
+           <div id="left-summary"></div>
+         </div>
+         <div class="column">
+           <div id="right-autocomplete"></div>
+           <div id="right-summary"></div>
+         </div>
+       </div>
       </div>
+       <div class="column is-half notification is-primary tutorial">
+         <h1>Search For A Movie On Both Sides</h1>
+         <p>We will tell you which one is the best!!</p>
+       </div>
+
     </section>
 
     <script src="utils.js"></script>

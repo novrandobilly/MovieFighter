@@ -1,14 +1,10 @@
-createAutoComplete({
-	root: document.querySelector('.autocomplete'),
+const autoCompleteConfig = {
 	renderOption(movie) {
 		const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
 		return `
         <img src='${imgSrc}'/>
         ${movie.Title} (${movie.Year})
         `;
-	},
-	onOptionSelect(movie) {
-		onMovieSelect(movie);
 	},
 	inputValue(movie) {
 		return movie.Title;
@@ -26,9 +22,29 @@ createAutoComplete({
 		}
 		return response.data.Search;
 	}
+};
+
+createAutoComplete({
+	...autoCompleteConfig,
+	root: document.querySelector('#left-autocomplete'),
+	onOptionSelect(movie) {
+		document.querySelector('.tutorial').classList.add('is-hidden');
+		onMovieSelect(movie, document.querySelector('#left-summary'), 'left');
+	}
 });
 
-const onMovieSelect = async (movie) => {
+createAutoComplete({
+	...autoCompleteConfig,
+	root: document.querySelector('#right-autocomplete'),
+	onOptionSelect(movie) {
+		document.querySelector('.tutorial').classList.add('is-hidden');
+		onMovieSelect(movie, document.querySelector('#right-summary'), 'right');
+	}
+});
+
+let leftMovie;
+let rightMovie;
+const onMovieSelect = async (movie, summaryElement, side) => {
 	const followUp = await axios.get('https://www.omdbapi.com/', {
 		params: {
 			apikey: 'e55cd6f4',
@@ -36,10 +52,31 @@ const onMovieSelect = async (movie) => {
 		}
 	});
 
-	document.querySelector('#summary').innerHTML = movieTemplate(followUp.data);
+	summaryElement.innerHTML = movieTemplate(followUp.data);
+
+	if (side === 'left') {
+		leftMovie = followUp.data;
+	} else {
+		rightMovie = followUp.data;
+	}
+
+	if (leftMovie && rightMovie) {
+		runComparison();
+	}
+};
+
+const runComparison = () => {
+	console.log('Time for comparison!!!');
 };
 
 const movieTemplate = (movieDetail) => {
+	const dollars = parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, ''));
+	const metascore = parseInt(movieDetail.Metascore);
+	const imdbRating = parseFloat(movieDetail.imdbRating);
+	const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g, ''));
+
+	console.log(metascore, imdbRating, dollars, imdbVotes);
+
 	return `
     <article class="media">
     <figure class="media-left">
